@@ -36,11 +36,11 @@ git submodule update --init --recursive
 
 ## 2. Download external assets
 
-- Data archive: **ADD_DATA_ARCHIVE_LINK_HERE**
-- Checkpoint archive: **ADD_CHECKPOINT_ARCHIVE_LINK_HERE**
+[Download the DEG2MOL data and checkpoints from Google Drive][deg2mol-assets]
 
-Extract both archives into the repository root. After extraction, the relevant
-layout must be:
+The shared folder contains the data and checkpoint archives. Extract both
+archives into the repository root. After extraction, the relevant layout must
+be:
 
 ```text
 DEG2MOL/
@@ -130,7 +130,8 @@ never silently filled with zero. The input file is read-only. Results default to
 `outputs/inference/<split>/<input-file-stem>/`.
 
 The minimal notebook at `tutorial/inference.ipynb` calls this same entry point
-instead of maintaining a second inference implementation.
+with the accepted random-split checkpoint by default, instead of maintaining a
+second inference implementation.
 
 ## 5. Training
 
@@ -176,3 +177,6 @@ ScafVAE is included as a pinned submodule from
 [tiejundong/ScafVAE](https://github.com/tiejundong/ScafVAE). Its source and
 license remain in that submodule. Please cite the corresponding DEG2MOL and
 ScafVAE publications when using this code.
+
+<!-- Maintainer: replace only the URL below with the shared Google Drive folder URL. -->
+[deg2mol-assets]: PASTE_GOOGLE_DRIVE_URL_HERE
