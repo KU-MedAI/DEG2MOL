@@ -2,6 +2,8 @@
 /checkpoints/
 /data/
 *.zip
+*.tar.gz
+*.tgz
 
 # Runtime outputs
 /outputs/

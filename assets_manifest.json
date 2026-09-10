@@ -16,7 +16,7 @@
       "splits": ["random"]
     },
     {
-      "path": "checkpoints/DEGMON_AE_BestModel_Lv7to5_lam1e-05.pth",
+      "path": "checkpoints/DEGMON_AE_best_model.pth",
       "size": 206026320,
       "sha256": "3631ca9eb74394f50f490c7d844f11e80393044a92a0c6fab6809964c9100ff8",
       "roles": ["train", "test", "inference"]
@@ -28,7 +28,7 @@
       "roles": ["train", "test", "inference"]
     },
     {
-      "path": "data/BP/gene_attribute_matrix_overlap_with_L1000_260320.csv",
+      "path": "data/BP/gene_attribute_matrix_overlap_with_L1000.csv",
       "size": 244303018,
       "sha256": "209e92f522a7c2d23773b80b212d37750b03eb08b78e3388c338fc7b5e7bff5c",
       "roles": ["train", "test", "inference"]

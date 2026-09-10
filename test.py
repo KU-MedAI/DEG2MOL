@@ -148,11 +148,11 @@ def build_parser():
     )
     parser.add_argument(
         "--gene-list-path",
-        default="data/BP/gene_attribute_matrix_overlap_with_L1000_260320.csv",
+        default="data/BP/gene_attribute_matrix_overlap_with_L1000.csv",
     )
     parser.add_argument(
         "--deg-checkpoint",
-        default="checkpoints/DEGMON_AE_BestModel_Lv7to5_lam1e-05.pth",
+        default="checkpoints/DEGMON_AE_best_model.pth",
     )
     parser.add_argument("--scafvae-checkpoint", default="checkpoints/ScafVAE.chk")
     parser.add_argument("--output-dir", default=None)

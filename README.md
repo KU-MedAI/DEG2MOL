@@ -41,7 +41,7 @@ conda activate deg2mol
 The setup creates a new `deg2mol` Conda environment and does not modify an
 existing Python environment. The known-good stack is Python 3.8.20, PyTorch
 1.10.2+cu113, pandas 1.2.2, SciPy 1.10.1, RDKit 2022.09.5,
-torch-geometric 2.0.4, and ScafVAE commit `2157430`.
+torch-geometric 2.0.4.
 
 If the repository was cloned without submodules, run:
 
@@ -62,10 +62,10 @@ DEG2MOL/
 ├── checkpoints/
 │   ├── scaffold/best_model.pt
 │   ├── random/best_model.pt
-│   ├── DEGMON_AE_BestModel_Lv7to5_lam1e-05.pth
+│   ├── DEGMON_AE_best_model.pth
 │   └── ScafVAE.chk
 ├── data/
-│   ├── BP/gene_attribute_matrix_overlap_with_L1000_260320.csv
+│   ├── BP/gene_attribute_matrix_overlap_with_L1000.csv
 │   ├── splits/
 │   │   ├── scaffold/{train,valid,test}.feather
 │   │   └── random/{train,valid,test}.feather
