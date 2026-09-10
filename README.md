@@ -1,4 +1,4 @@
-# DEG2MOL
+# DEG2MOL: Conditional Latent Flow Matching for Transcriptome-Guided De Novo Drug Design
 
 ![DEG2MOL overview](figures/overview.png)
 
@@ -142,9 +142,14 @@ loader reorders them exactly. Missing required genes cause a clear error and are
 never silently filled with zero. The input file is read-only. Results default to
 `outputs/inference/<split>/<input-file-stem>/`.
 
-The minimal notebook at `tutorial/inference.ipynb` calls this same entry point
-with the accepted random-split checkpoint by default, instead of maintaining a
-second inference implementation.
+The notebook at `tutorial/inference.ipynb` previews the input DEG profiles,
+calls this same entry point with the accepted random-split checkpoint by
+default, summarizes the generated SMILES, and renders valid molecules as a 2D
+structure grid.
+
+```bash
+jupyter notebook tutorial/inference.ipynb
+```
 
 ## 5. Training
 
