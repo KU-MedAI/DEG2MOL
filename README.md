@@ -23,9 +23,7 @@ knockdown, CRISPR knockout, and Perturb-seq profiles without additional training
 indicating transfer across the perturbation types and profiling platforms
 evaluated. At the transcriptional level, an *in silico* gene-expression analysis
 showed that the predicted signatures of generated molecules were more similar to
-those of target-matched inhibitors than to those of unrelated inhibitors. The data
-and code are available at
-[https://github.com/KU-MedAI/DEG2MOL](https://github.com/KU-MedAI/DEG2MOL).
+those of target-matched inhibitors than to those of unrelated inhibitors.
 
 ## 1. Clone and create an isolated environment
 
@@ -51,7 +49,7 @@ git submodule update --init --recursive
 
 ## 2. Download external assets
 
-[Download the DEG2MOL data and checkpoints from Google Drive][deg2mol-assets]
+[Download the DEG2MOL data and checkpoints from Google Drive](https://drive.google.com/drive/folders/1wWmcUrNJ9OVQwEhHy6xtxjqv8IAoYGZZ?usp=drive_link)
 
 The shared folder contains the data and checkpoint archives. Extract both
 archives into the repository root. After extraction, the relevant layout must
@@ -203,6 +201,3 @@ If you use this repository, please cite the forthcoming article:
 
 The complete ACS citation and BibTeX entry will be added when the DOI, author
 list, volume, issue, and page information become available.
-
-<!-- Maintainer: replace only the URL below with the shared Google Drive folder URL. -->
-[deg2mol-assets]: PASTE_GOOGLE_DRIVE_URL_HERE
