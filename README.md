@@ -2,15 +2,30 @@
 
 ![DEG2MOL overview](figures/overview.png)
 
-DEG2MOL is a conditional latent flow-matching model for transcriptome-guided
-*de novo* molecular generation. A Gene Ontology-informed DEGMON autoencoder
-maps a 10,280-gene differential-expression profile to a 64-dimensional
-condition. A Gated MLP then transports Gaussian noise into the 64-dimensional
-ScafVAE molecular latent space, and the frozen ScafVAE decoder returns SMILES.
+## 0. Abstract
 
-This repository contains the accepted scaffold-split and random-split
-implementation. The large data and pretrained checkpoints are distributed as
-separate archives; every runtime path in the code is relative to this repository.
+Transcriptomic profiles capture cellular responses to perturbations, offering a
+principled foundation for biologically grounded *de novo* drug design. However,
+existing transcriptome-guided generative approaches remain limited in biological
+specificity, transcriptomic coverage, and evaluation across diverse perturbation
+contexts. Here, we propose DEG2MOL, a biologically grounded conditioning framework
+that encodes differentially expressed gene profiles through a Gene Ontology
+(GO)-informed encoder and maps this representation into the latent space of a
+frozen, pre-trained scaffold-aware VAE via conditional latent flow matching. When
+benchmarked against five baseline models, DEG2MOL ranked first by rank-sum
+aggregation of six metrics in both the random- and scaffold-split evaluations. For
+two representative compound conditions, GO-informed encoder activations were
+accompanied by enrichment of the corresponding target-engaging pharmacophores
+among the generated molecules. In docking case studies of two compound–target
+pairs, generated molecules showed favorable predicted docking scores and
+reference-associated contacts. DEG2MOL also generated molecules from shRNA
+knockdown, CRISPR knockout, and Perturb-seq profiles without additional training,
+indicating transfer across the perturbation types and profiling platforms
+evaluated. At the transcriptional level, an *in silico* gene-expression analysis
+showed that the predicted signatures of generated molecules were more similar to
+those of target-matched inhibitors than to those of unrelated inhibitors. The data
+and code are available at
+[https://github.com/KU-MedAI/DEG2MOL](https://github.com/KU-MedAI/DEG2MOL).
 
 ## 1. Clone and create an isolated environment
 
@@ -177,6 +192,17 @@ ScafVAE is included as a pinned submodule from
 [tiejundong/ScafVAE](https://github.com/tiejundong/ScafVAE). Its source and
 license remain in that submodule. Please cite the corresponding DEG2MOL and
 ScafVAE publications when using this code.
+
+## Citation
+
+The DEG2MOL manuscript has been accepted for publication in **ACS Omega**.
+If you use this repository, please cite the forthcoming article:
+
+> *DEG2MOL: Conditional Latent Flow Matching for Transcriptome-Guided De Novo
+> Drug Design*. **ACS Omega**. Accepted for publication.
+
+The complete ACS citation and BibTeX entry will be added when the DOI, author
+list, volume, issue, and page information become available.
 
 <!-- Maintainer: replace only the URL below with the shared Google Drive folder URL. -->
 [deg2mol-assets]: PASTE_GOOGLE_DRIVE_URL_HERE
