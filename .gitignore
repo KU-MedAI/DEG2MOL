@@ -1,4 +1,23 @@
-checkpoints/
-data/
-.codex
+# External assets (download links are documented in README.md)
+/checkpoints/
+/data/
 *.zip
+
+# Runtime outputs
+/outputs/
+/wandb/
+
+# Python and notebook caches
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+
+# Local environments and editor state
+.env
+.venv/
+/env/
+.vscode/
+.idea/
+.codex

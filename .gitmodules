@@ -1,0 +1,3 @@
+[submodule "ScafVAE"]
+	path = third_party/ScafVAE
+	url = https://github.com/tiejundong/ScafVAE.git

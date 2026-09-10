@@ -1,10 +1,6 @@
-import pandas as pd
-import numpy as np
-import os
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from typing import Optional, Tuple
 
 class GO_Encoder(nn.Module):
     def __init__(self, dims, latent_dim=256):

@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "checkpoints/scaffold/best_model.pt",
+      "size": 124226367,
+      "sha256": "6714ad14bfa57156a3786217358de5292d319be1a41d9ed233b576ba4847b546",
+      "roles": ["test", "inference"],
+      "splits": ["scaffold"]
+    },
+    {
+      "path": "checkpoints/random/best_model.pt",
+      "size": 124226367,
+      "sha256": "fdcb6ee89ceae42e7373bf8262d02fd1ad918f7db5dda92d36dcb3617ff6d421",
+      "roles": ["test", "inference"],
+      "splits": ["random"]
+    },
+    {
+      "path": "checkpoints/DEGMON_AE_BestModel_Lv7to5_lam1e-05.pth",
+      "size": 206026320,
+      "sha256": "3631ca9eb74394f50f490c7d844f11e80393044a92a0c6fab6809964c9100ff8",
+      "roles": ["train", "test", "inference"]
+    },
+    {
+      "path": "checkpoints/ScafVAE.chk",
+      "size": 1303799751,
+      "sha256": "fcfe2038dd056c2cdabb9a7420a211fbaf209a2be379b8112d2c272142499d04",
+      "roles": ["train", "test", "inference"]
+    },
+    {
+      "path": "data/BP/gene_attribute_matrix_overlap_with_L1000_260320.csv",
+      "size": 244303018,
+      "sha256": "209e92f522a7c2d23773b80b212d37750b03eb08b78e3388c338fc7b5e7bff5c",
+      "roles": ["train", "test", "inference"]
+    },
+    {
+      "path": "data/splits/scaffold/train.feather",
+      "size": 444562698,
+      "sha256": "d9d839a45826c4df1c7faaed323deb5c7e23281676acabbc3263e54aff85ef7c",
+      "roles": ["train", "test"],
+      "splits": ["scaffold"]
+    },
+    {
+      "path": "data/splits/scaffold/valid.feather",
+      "size": 59140290,
+      "sha256": "930e7f2658391e99fab2a52e31e13c39613cb0127095759be96e5a33d650bed5",
+      "roles": ["train"],
+      "splits": ["scaffold"]
+    },
+    {
+      "path": "data/splits/scaffold/test.feather",
+      "size": 74617826,
+      "sha256": "3980df037c68466b790a148674fd349390d22675c21024e6a414f0a08238bec7",
+      "roles": ["test"],
+      "splits": ["scaffold"]
+    },
+    {
+      "path": "data/splits/random/train.feather",
+      "size": 457470218,
+      "sha256": "4dd002d48fcd6fea833f32d75b83ee5b0d2740a88e37054a062c976d1afa6909",
+      "roles": ["train", "test"],
+      "splits": ["random"]
+    },
+    {
+      "path": "data/splits/random/valid.feather",
+      "size": 60708466,
+      "sha256": "f2aa02bc2e6abedfb44f5497cb79ea851a631ddeeee450052aabdeb56f38862e",
+      "roles": ["train"],
+      "splits": ["random"]
+    },
+    {
+      "path": "data/splits/random/test.feather",
+      "size": 60790490,
+      "sha256": "f63ef9d3573c5cd21b640968938b7314e9aeb8052621dff15b7396e97330df77",
+      "roles": ["test"],
+      "splits": ["random"]
+    },
+    {
+      "path": "data/scafvae/deg2mol_64dim/train_list.txt",
+      "size": 204491,
+      "sha256": "5114fc6da12e5892742aa71194dcb704000bf207c3851f279e8a12a0496d7b3a",
+      "roles": ["train"]
+    },
+    {
+      "path": "data/scafvae/deg2mol_64dim/val_list.txt",
+      "size": 25580,
+      "sha256": "6cd9d0a23d2f019e43c43fb94810c586060ba77b9e0f9f8b2d30599120623011",
+      "roles": ["train"]
+    }
+  ],
+  "directories": [
+    {
+      "path": "data/scafvae/deg2mol_64dim/feat",
+      "file_count": 27525,
+      "roles": ["train"]
+    },
+    {
+      "path": "data/scafvae/deg2mol_64dim/scaf",
+      "file_count": 19008,
+      "roles": ["train", "test"]
+    }
+  ]
+}

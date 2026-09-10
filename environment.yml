@@ -1,0 +1,24 @@
+name: deg2mol
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8.20
+  - pip=24.2
+  - setuptools=59.5.0
+  - wheel
+  - numpy=1.24.4
+  - scipy=1.10.1
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu113
+      - torch==1.10.2+cu113
+      - pandas==1.2.2
+      - pyarrow==17.0.0
+      - rdkit-pypi==2022.9.5
+      - einops==0.8.1
+      - fair-esm==2.0.0
+      - ml-collections==0.1.1
+      - molecular-rectifier==1.0.1
+      - networkx==2.7
+      - PyYAML==6.0.2
+      - torchdiffeq==0.2.5
+      - tqdm==4.67.1

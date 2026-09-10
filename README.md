@@ -1,182 +1,178 @@
-# DEG2MOL: Conditional Latent Flow Matching for Transcriptome-Guided De Novo Drug Design
+# DEG2MOL
 
-## Abstract
+![DEG2MOL overview](figures/overview.png)
 
-![Model Architecture](figures/overview.png)
+DEG2MOL is a conditional latent flow-matching model for transcriptome-guided
+*de novo* molecular generation. A Gene Ontology-informed DEGMON autoencoder
+maps a 10,280-gene differential-expression profile to a 64-dimensional
+condition. A Gated MLP then transports Gaussian noise into the 64-dimensional
+ScafVAE molecular latent space, and the frozen ScafVAE decoder returns SMILES.
 
-Phenotypic drug discovery (PDD) has emerged as a promising paradigm for generating molecules conditioned on transcriptomic profiles to achieve desired biological activity, yet existing approaches suffer from training instability, high inference latency, and insufficient biological specificity in transcriptomic conditioning. To address these limitations, we propose DEG2MOL, the first conditional latent flow matching framework for PDD, which generates molecules by transforming Gaussian noise into molecular latent vectors guided by a Gene Ontology-informed differentially expressed gene (DEG) encoder. By conditioning on DEG profiles rather than post-treatment expression values and enforcing scaffold-aware data partitioning, DEG2MOL provides a more biologically grounded and methodologically rigorous framework for transcriptome-guided *de novo* drug design. DEG2MOL achieved the top overall rank under both random and scaffold split settings, while delivering an inference time of 0.02 seconds per molecule, up to 11-fold faster than diffusion-based baselines. Molecular docking simulations confirmed that the generated molecules preserve critical binding interactions with target proteins, and cross-domain evaluation demonstrated consistent generalizability across knockdown, knockout, and single-cell Perturb-seq DEG profiles. Computational simulations of transcriptomic responses induced by the generated molecules showed high pathway-level correlations with experimental Perturb-seq profiles, with Spearman correlations ranging from 0.39 to 0.56. The data and code are available at [https://github.com/KU-MedAI/DEG2MOL](https://github.com/KU-MedAI/DEG2MOL).
+This repository contains the accepted scaffold-split and random-split
+implementation. The large data and pretrained checkpoints are distributed as
+separate archives; every runtime path in the code is relative to this repository.
 
-## Environment Setup
+## 1. Clone and create an isolated environment
 
-### Dependencies
-
-Please install both the DEG2MOL dependencies below and the ScafVAE environment from the official ScafVAE repository:
-
-- ScafVAE: https://github.com/tiejundong/ScafVAE
-
-```bash
-# PyTorch (CUDA support recommended)
-pip install torch torchvision torchaudio
-
-# Flow Matching and ODE Solver
-pip install torchdiffeq
-
-# Data Processing
-pip install pandas numpy scipy
-
-# Molecular Processing and Evaluation
-pip install rdkit
-
-# Progress Display
-pip install tqdm
-
-# Optional: Experiment Tracking
-pip install wandb
-```
-
-ScafVAE embeddings and decoding are used during training, testing, and inference, so the ScafVAE environment and its pretrained assets should be available before running this repository.
-
-## Data
-
-### Data Format
-
-The project uses the following data formats:
-
-1. **DEG Data** (`.feather` format)
-   - Columns: `cmap_name` (molecule identifier), gene names (12,014 genes)
-   - Main split files: `data/train.feather`, `data/valid.feather`, `data/test.feather`
-   - Cross-domain inference files: `data/{data_type}/extra_test.feather`
-   - Example data types: `KO`, `KD`, `Perturb-seq`
-
-2. **Gene Order File** (`.csv` format)
-   - File that defines the standard order of gene names
-   - Default path: `data/BP/gene_attribute_matrix_overlap_with_L1000.csv`
-   - Gene names stored as index
-
-3. **Molecular Latent Representations** (`.npz` format)
-   - Molecular latent representations encoded by ScafVAE
-   - File location: `{task_path}/scaf/{cmap_name}.npz`
-   - One `.npz` file per molecule
-
-4. **Molecular Feature Data** (`.npz` format)
-   - Additional feature information for molecules
-   - File location: `{task_path}/feat/{cmap_name}.npz`
-
-### Data Directory Structure
-
-```
-data/
-├── BP/
-│   └── gene_attribute_matrix_overlap_with_L1000.csv
-├── train.feather
-├── valid.feather
-├── test.feather
-├── {data_type}/
-│   └── extra_test.feather
-```
-
-### Pre-trained Models
-
-- **DEG Encoder**: Model that encodes DEG data into latent space
-  - Default path: `checkpoints/DEGMON_AE_best_model.pth`
-  - Supports Autoencoder types
-
-- **ScafVAE**: Molecular encoding/decoding model
-  - Automatically loaded from ScafVAE library
-
-### Download
-
-ScafVAE embeddings, training and inference datasets, and model checkpoints can be downloaded from the following Google Drive folder:
-
-- https://drive.google.com/drive/folders/1PtAC-Ui7HUvEjzo2nQf5Kk1uyZCm25Cj?usp=sharing
-
-## Implementation
-
-### 1. Training
-
-Train the Flow Matching model.
+Clone ScafVAE at the exact pinned revision by including submodules:
 
 ```bash
-python train.py \
-    --use_ema \
-    --use_amp \
-    --use_scheduler \
-    --save_dir ./checkpoints
+git clone --recurse-submodules https://github.com/KU-MedAI/DEG2MOL.git
+cd DEG2MOL
+bash scripts/setup_environment.sh
+conda activate deg2mol
 ```
 
-#### Key Parameters
+The setup creates a new `deg2mol` Conda environment and does not modify an
+existing Python environment. The known-good stack is Python 3.8.20, PyTorch
+1.10.2+cu113, pandas 1.2.2, SciPy 1.10.1, RDKit 2022.09.5,
+torch-geometric 2.0.4, and ScafVAE commit `2157430`.
 
-- `--combine_method`: Condition combination method (`sum`, `concat`, `cross_attn`)
-- `--use_ema`: Whether to use Exponential Moving Average
-- `--use_amp`: Whether to use Mixed Precision Training
-- `--cfg_drop_prob`: Classifier-free guidance dropout probability (default: 0.3)
-
-### 2. Testing
-
-Generate molecules and evaluate using the trained model.
+If the repository was cloned without submodules, run:
 
 ```bash
-python test.py \
-    --num_samples 100 \
-    --guidance_scale 3 \
-    --conditional
+git submodule update --init --recursive
 ```
 
-#### Key Parameters
+## 2. Download external assets
 
-- `--conditional`: Enable conditional generation mode
-- `--num_samples`: Number of molecules to generate per test sample
-- `--guidance_scale`: Classifier-free guidance scale
+- Data archive: **ADD_DATA_ARCHIVE_LINK_HERE**
+- Checkpoint archive: **ADD_CHECKPOINT_ARCHIVE_LINK_HERE**
 
-### 3. Inference
+Extract both archives into the repository root. After extraction, the relevant
+layout must be:
 
-Generate molecules for new DEG data using the trained model.
+```text
+DEG2MOL/
+├── checkpoints/
+│   ├── scaffold/best_model.pt
+│   ├── random/best_model.pt
+│   ├── DEGMON_AE_BestModel_Lv7to5_lam1e-05.pth
+│   └── ScafVAE.chk
+├── data/
+│   ├── BP/gene_attribute_matrix_overlap_with_L1000_260320.csv
+│   ├── splits/
+│   │   ├── scaffold/{train,valid,test}.feather
+│   │   └── random/{train,valid,test}.feather
+│   ├── scafvae/deg2mol_64dim/
+│   │   ├── feat/*.npz
+│   │   ├── scaf/*.npz
+│   │   ├── train_list.txt
+│   │   └── val_list.txt
+│   └── inference/
+│       └── KO/extra_test.feather
+└── third_party/ScafVAE/
+```
+
+Training needs both ScafVAE `feat` and `scaf` files. Testing uses `scaf` only to
+reproduce the accepted evaluation cohort (rows without the corresponding asset
+are excluded, as in the accepted script). Inference needs neither directory.
+
+Validate an extracted archive before running a model:
+
+```bash
+python scripts/validate_assets.py --role test --split scaffold
+python scripts/validate_assets.py --role test --split random
+python scripts/validate_assets.py --role train --split scaffold
+```
+
+Validation checks expected sizes and SHA-256 hashes from
+`assets_manifest.json`. Add `--skip-hash` for a faster path/size-only check.
+
+## 3. Reproduce test-set generation and evaluation
+
+Scaffold split:
+
+```bash
+python test.py --split scaffold --num-samples 100 --guidance-scale 3
+```
+
+Random split:
+
+```bash
+python test.py --split random --num-samples 100 --guidance-scale 3
+```
+
+The default scaffold-availability filter matches the accepted evaluation code.
+Use `--skip-scaffold-filter` only when intentionally evaluating every DEG row.
+
+For a quick smoke run, append
+`--max-eval-samples 2 --num-samples 2 --num-steps 2`. Outputs are written to
+`outputs/test/<split>/`:
+
+- `generated_molecules.csv`: portable generated SMILES table
+- `generated_molecules_dict.pkl`: legacy RDKit-molecule result dictionary
+- `compound_embeddings.npz`: per-input mean generated latent
+- `evaluation_results.json`: validity, uniqueness, and novelty
+
+## 4. Inference on a DEG table
 
 ```bash
 python inference.py \
-    --model_checkpoint ./checkpoints/DEG2MOL_best_model.pt \
-    --data_type Perturb-seq \
-    --num_samples 100 \
-    --guidance_scale 3 \
+  --split scaffold \
+  --input-path data/inference/KO/extra_test.feather \
+  --num-samples 100 \
+  --guidance-scale 3
 ```
 
-#### Key Parameters
+Use `--split random` to select `checkpoints/random/best_model.pt`. An explicit
+checkpoint can be supplied with `--model-checkpoint path/to/best_model.pt`.
 
-- `--data_type`: Data type (`KO`, `KD`, `Perturb-seq`)
+The input may be Feather or CSV and must contain:
 
-### 4. Tutorial Notebook
+- `cmap_name`: a stable row identifier
+- one numeric column for each of the 10,280 genes in the supplied gene-order
+  matrix
 
-An interactive inference tutorial is available at:
+Extra metadata columns are ignored. Gene columns may appear in any order; the
+loader reorders them exactly. Missing required genes cause a clear error and are
+never silently filled with zero. The input file is read-only. Results default to
+`outputs/inference/<split>/<input-file-stem>/`.
 
-- `tutorial/inference.ipynb`
+The minimal notebook at `tutorial/inference.ipynb` calls this same entry point
+instead of maintaining a second inference implementation.
 
-The notebook supports:
+## 5. Training
 
-- selecting `KD`, `KO`, or `Perturb-seq` and filtering rows by target name
-- aligning a user-provided DEG table to the model gene order
-- filling missing genes with `0`
-- generating molecules and visualizing the first few generated SMILES
+The accepted hyperparameters are defaults. To retrain the scaffold split:
 
-### Output Files
+```bash
+python train.py --split scaffold
+```
 
-- **Training**: Checkpoint files are saved in `--save_dir`
-- **Testing/Inference**: Generated molecule dictionary is saved as a `.pkl` file
-  - Filename: `{data_type}_generated_molecules_dict_{guidance_scale}.pkl`
-  - Format: `{sample_name}_{idx}: {'generated_mols': [list of Mol objects]}`
+To retrain the random split:
 
-### Model Architecture
+```bash
+python train.py --split random
+```
 
-#### Gated Conditional Flow MLP
+Training reads `train.feather`, `valid.feather`, and the ScafVAE task assets.
+It writes a timestamped run under `outputs/training/<split>/` and never writes
+to the source data directories. The saved `best_model.pt` uses EMA weights,
+matching the accepted checkpoints. Exact accepted settings and checkpoint
+metrics are recorded in `configs/` and `SOURCE_PROVENANCE.md`.
 
-- **Input**: Molecular latent representation `x`, time `t`, DEG condition `c`
-- **Structure**: 
-  - Time embedding (Sinusoidal)
-  - Condition combination (sum/concat/cross-attention)
-  - Gated MLP blocks
-  - Output projection
-- **Features**: Residual connections, Layer normalization, Dropout support
+All path options accept an absolute override, but the defaults are repository
+relative. Run `python train.py --help`, `python test.py --help`, or
+`python inference.py --help` for the complete options.
 
-#### DEG Encoder
+## Checkpoint identity
 
-- **AE Mode**: `GO_Autoencoder` - Autoencoder-based encoder
-  - Architecture: `[10280, 2011, 1614, 1075] → latent_dim`
+| Asset | Size | SHA-256 |
+|---|---:|---|
+| Scaffold flow | 124,226,367 B | `6714ad14bfa57156a3786217358de5292d319be1a41d9ed233b576ba4847b546` |
+| Random flow | 124,226,367 B | `fdcb6ee89ceae42e7373bf8262d02fd1ad918f7db5dda92d36dcb3617ff6d421` |
+| DEGMON AE | 206,026,320 B | `3631ca9eb74394f50f490c7d844f11e80393044a92a0c6fab6809964c9100ff8` |
+| ScafVAE | 1,303,799,751 B | `fcfe2038dd056c2cdabb9a7420a211fbaf209a2be379b8112d2c272142499d04` |
+
+These binaries and datasets are intentionally excluded from Git. GitHub
+[blocks regular Git objects larger than 100 MiB](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github),
+so the separate archives avoid partial or unusable clones. See
+`assets_manifest.json` for all data identities.
+
+## Third-party component
+
+ScafVAE is included as a pinned submodule from
+[tiejundong/ScafVAE](https://github.com/tiejundong/ScafVAE). Its source and
+license remain in that submodule. Please cite the corresponding DEG2MOL and
+ScafVAE publications when using this code.

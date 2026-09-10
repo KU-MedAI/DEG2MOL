@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import math
 import torch.nn.functional as F
-from models.DEGMON.DEG_AE import GO_Encoder
 
 # ==============================================================================
 #  Time Embedding
@@ -117,4 +116,3 @@ class GatedConditionalFlowMLP(nn.Module):
             h = layer(h)
             
         return self.output_proj(self.output_norm(h))
-
